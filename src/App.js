@@ -25,7 +25,7 @@ class App extends Component {
 
     await axios({
       method: 'get',
-      url: `/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=${serviceKey}&returnType=json&numOfRows=100&pageNo=1&sidoName=${sidoName}&ver=1.0`,
+      url: `http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=${serviceKey}&returnType=json&numOfRows=100&pageNo=1&sidoName=${sidoName}&ver=1.0`,
       dataType: 'json',
     })
     .then(response => 

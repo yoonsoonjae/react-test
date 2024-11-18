@@ -1,5 +1,6 @@
 import './App.css';
 import React, { Component } from 'react';
+import AirQuality from './AirQuality';
 import axios from 'axios';
 import Pollution from './Pollution';
 
@@ -25,7 +26,7 @@ class App extends Component {
 
     await axios({
       method: 'get',
-      url: `https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=${serviceKey}&returnType=json&numOfRows=100&pageNo=1&sidoName=${sidoName}&ver=1.0`,
+      url: `https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=${serviceKey}&returnType=json&numOfRows=1&pageNo=1&sidoName=${sidoName}&ver=1.0`,
       dataType: 'json',
     })
     .then(response => 
@@ -64,6 +65,9 @@ class App extends Component {
         <input type="text" placeholder="도시를 입력하세요" onChange={this.handleChange} name="city"/>
         <button onClick={this.getData}>검색</button>
         {result}
+    <div>
+      <AirQuality />
+    </div>
     </div>
   );
   }

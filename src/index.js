@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom'; // BrowserRouter 임포트
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './components/AirQuality/reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>

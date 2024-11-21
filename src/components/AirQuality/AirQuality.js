@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './AirQuality.css';
 
 const AirQuality = () => {
     const [airQuality, setAirQuality] = useState(null);
@@ -54,7 +55,6 @@ const AirQuality = () => {
             const response = await axios.get(apiUrl);
             if (response.data) {
                 let name = response.data.name; // 지역 이름 설정
-                // 지역 이름 매핑
                 const locationMapping = {
                     "Seoul": "서울특별시",
                     "Busan": "부산광역시",
@@ -73,28 +73,7 @@ const AirQuality = () => {
                     "Gyeongsangbuk-do": "경상북도",
                     "Gyeongsangnam-do": "경상남도",
                     "Jeju-do": "제주도",
-                    // 추가적인 세부 지역 매핑
-                    "Gangseo-gu": "강서구",
-                    "Gangdong-gu": "강동구",
-                    "Songpa-gu": "송파구",
-                    "Mapo-gu": "마포구",
-                    "Seocho-gu": "서초구",
-                    "Yongsan-gu": "용산구",
-                    "Jongno-gu": "종로구",
-                    "Gwangjin-gu": "광진구",
-                    "Nowon-gu": "노원구",
-                    "Dobong-gu": "도봉구",
-                    "Gangbuk-gu": "강북구",
-                    "Eunpyeong-gu": "은평구",
-                    "Seongbuk-gu": "성북구",
-                    "Jungnang-gu": "중랑구",
-                    // 부산 세부구역
-                    "Haeundae-gu": "해운대구",
-                    "Suyeong-gu": "수영구",
-                    "Nam-gu": "남구",
-                    "Dong-gu": "동구",
-                    "Busanjin-gu": "부산진구",
-                    "Yeonje-gu": "연제구",
+                    "Miryang" : "밀양"
                 };
                 setLocationName(locationMapping[name] || name); // 매핑된 이름 또는 기본 이름 설정
             }
@@ -103,26 +82,32 @@ const AirQuality = () => {
         }
     };
 
-    if (loading) return <div>로딩 중...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading) return <div className="loading">로딩 중...</div>;
+    if (error) return <div className="error">{error}</div>;
 
     return (
-        <div>
-            <h1>미세먼지 정보</h1>
-            {locationName && <h2>측정 지역: {locationName}</h2>}
+        <div className="AirQuality-info">
+            <h1 className="Dust">미세먼지 정보</h1>
+            {locationName && <h2>현재 지역: {locationName}</h2>}
             {airQuality ? (
-                <div>
-                    <p>미세먼지 (PM10): {airQuality.pm10} μg/m³</p>
-                    <p>초미세먼지 (PM2.5): {airQuality.pm2_5} μg/m³</p>
-                    <p>상태: {airQuality.pm10 > 50 ? "나쁨" : "좋음"}</p>
+                <div className="flex">
+                    <div className="air-quality-item">
+                        <p>미세먼지 (PM10): {airQuality.pm10} μg/m³</p>
+                    </div>
+                    <div className="air-quality-item">
+                        <p>초미세먼지 (PM2.5): {airQuality.pm2_5} μg/m³</p>
+                    </div>
                 </div>
             ) : (
                 <p>미세먼지 정보가 없습니다.</p>
+            )}
+            {airQuality && (
+                <div className="status">
+                    <p>상태: {airQuality.pm10 > 50 ? "나쁨" : "좋음"}</p>
+                </div>
             )}
         </div>
     );
 };
 
 export default AirQuality;
-
-

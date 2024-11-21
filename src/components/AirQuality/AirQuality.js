@@ -73,7 +73,7 @@ const AirQuality = () => {
                     "Gyeongsangbuk-do": "경상북도",
                     "Gyeongsangnam-do": "경상남도",
                     "Jeju-do": "제주도",
-                    "Miryang" : "밀양"
+                    "Miryang": "밀양"
                 };
                 setLocationName(locationMapping[name] || name); // 매핑된 이름 또는 기본 이름 설정
             }
@@ -82,8 +82,26 @@ const AirQuality = () => {
         }
     };
 
+    const getStatus = (pm10, pm2_5) => {
+        const pm10Status = getAirQualityStatus(pm10);
+        const pm2_5Status = getAirQualityStatus(pm2_5);
+        return {
+            pm10: pm10Status,
+            pm2_5: pm2_5Status
+        };
+    };
+
+    const getAirQualityStatus = (value) => {
+        if (value <= 15) return "좋음";
+        if (value <= 35) return "보통";
+        if (value <= 75) return "나쁨";
+        return "매우 나쁨";
+    };
+
     if (loading) return <div className="loading">로딩 중...</div>;
     if (error) return <div className="error">{error}</div>;
+
+    const status = airQuality ? getStatus(airQuality.pm10, airQuality.pm2_5) : {};
 
     return (
         <div className="AirQuality-info">
@@ -93,18 +111,15 @@ const AirQuality = () => {
                 <div className="flex">
                     <div className="air-quality-item">
                         <p>미세먼지 (PM10): {airQuality.pm10} μg/m³</p>
+                        <p className='status'>상태: {status.pm10}</p>
                     </div>
                     <div className="air-quality-item">
                         <p>초미세먼지 (PM2.5): {airQuality.pm2_5} μg/m³</p>
+                        <p className='status'>상태: {status.pm2_5}</p>
                     </div>
                 </div>
             ) : (
                 <p>미세먼지 정보가 없습니다.</p>
-            )}
-            {airQuality && (
-                <div className="status">
-                    <p>상태: {airQuality.pm10 > 50 ? "나쁨" : "좋음"}</p>
-                </div>
             )}
         </div>
     );
